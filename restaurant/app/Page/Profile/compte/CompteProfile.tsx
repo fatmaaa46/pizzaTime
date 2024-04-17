@@ -6,6 +6,8 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { LuBadgePercent, LuUserCircle2 } from "react-icons/lu";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { TbShoppingBagCheck } from "react-icons/tb";
+import { DiAptana } from "react-icons/di";
+
 import "../profile.css";
 
 
@@ -60,8 +62,7 @@ Mon compte
      <div
          onClick={() => {
          router.push("/Page/Profile");
-        // router.push("/components/DropDown");
-        
+
          }} 
          className="flex cursor-pointer gap-4"
      >
@@ -84,11 +85,25 @@ Mon compte
          <IoMdNotificationsOutline size={30} />
          <p className="text-2xl">Notifications</p>
      </div>
+     <div
+         onClick={() => {
+         router.push("/Page/addResto");
+
+         }} 
+         className="flex cursor-pointer gap-4"
+     >
+        <DiAptana size={30}  />
+        
+         <p className="text-2xl cursor-pointer">Gerer Restaurant</p>
+     </div>
      <div className="flex gap-4" onClick={HandleLogout}>
          <RiLogoutCircleLine size={30} />
          <p className="text-2xl cursor-pointer" onClick={HandleLogout}>Déconnexion</p>
      </div>
-     </div></div>
+  
+     </div> 
+     
+     </div>
    )
  }
  export default CompteProfile ;
