@@ -1,74 +1,64 @@
-"use client"
-import React, { SyntheticEvent, useState } from "react";
-import Registration from "./Registration";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, SyntheticEvent } from 'react';
+import Registration from './Registration';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CompteProfile from "../Profile/compte/CompteProfile";
+import CompteProfile from '../Profile/compte/CompteProfile';
 
 const Login = ({ setShowRegistration, showRegistration }: any) => {
   const [showProfile, setShowProfile] = useState(false);
-  const handleSignUpClick = () => {
-    setShowRegistration(true);
-  };
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const listOfUser = async () => {
-    const response = await fetch("http://localhost:8000/backend/user");
-    const data: any = await response.json();
-    return data;
-  };
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault(); // Empêche le rechargement de la page par défaut du formulaire
 
-  const Submit = async (e: SyntheticEvent) => {
-    e.preventDefault();
-    let users = await listOfUser();
-    console.log({ users });
-
-    const user = users.find((el: any) => el.email === email && el.password === password);
-    if (user !== undefined) {
-      toast.error(`Vérifiez vos données!`, {
-        autoClose: 2000,
-        theme: "colored",
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    } else {
-      let response = await fetch("http://localhost:8000/backend/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+    try {
+      const response = await fetch('http://localhost:8000/backend/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-      let data = await response.json();
-      if(data.data!==undefined){
-        localStorage.setItem("userId",data.data.user_id)
-      }
-      if (data.statusCode === 200) {
+
+      const data = await response.json();
+
+      if (response.ok && data.statusCode === 200) {
         setShowProfile(true);
-        if(email==='hamrounicukur@gmail.com')
-       { localStorage.setItem('admin','true')}
-        else {
-          localStorage.setItem('admin','false')
+
+        // Vérifier et définir le statut administrateur en fonction de l'email
+        localStorage.setItem('admin', email === 'hamrounicukur@gmail.com' ? 'true' : 'false');
+
+        if (data.data !== undefined) {
+          localStorage.setItem('userId', data.data.user_id);
         }
       } else {
-        toast.error(`Utilisateur non trouvé`, {
+        toast.error('Utilisateur non trouvé', {
           autoClose: 2000,
-          theme: "colored",
+          theme: 'colored',
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
         });
       }
+
       console.log({ data });
+    } catch (error) {
+      console.error('Erreur lors de la connexion', error);
+      toast.error('Erreur lors de la connexion', {
+        autoClose: 2000,
+        theme: 'colored',
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
   return (
     <div>
-            <ToastContainer limit={1} /> 
+      <ToastContainer limit={1} />
 
       {!showProfile ? (
-        <form className="form_main" action="">
+        <form className="form_main" onSubmit={handleSubmit}>
           {!showRegistration ? (
             <>
               <p className="heading">Login</p>
@@ -78,6 +68,7 @@ const Login = ({ setShowRegistration, showRegistration }: any) => {
                   id="email"
                   className="inputField"
                   type="text"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
@@ -88,27 +79,27 @@ const Login = ({ setShowRegistration, showRegistration }: any) => {
                   id="password"
                   className="inputField"
                   type="password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
-              <button onClick={Submit} type="submit" id="button">connexion</button>
+              <button type="submit" id="button">
+                Connexion
+              </button>
               <a href="">Mot de passe oublié !</a>
               <div className="signupContainer">
-                <button id="button" onClick={handleSignUpClick}>
+                <button id="button" onClick={() => setShowRegistration(true)}>
                   Inscription
                 </button>
               </div>
             </>
           ) : (
-            <>
-              <Registration />
-            </>
+            <Registration />
           )}
         </form>
       ) : (
-        <CompteProfile         setShowProfile={setShowProfile}
-        />
+        <CompteProfile setShowProfile={setShowProfile} />
       )}
     </div>
   );

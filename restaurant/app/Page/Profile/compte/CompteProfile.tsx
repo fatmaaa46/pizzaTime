@@ -85,17 +85,12 @@ Mon compte
          <IoMdNotificationsOutline size={30} />
          <p className="text-2xl">Notifications</p>
      </div>
-     <div
-         onClick={() => {
-         router.push("/Page/addResto");
-
-         }} 
-         className="flex cursor-pointer gap-4"
-     >
-        <DiAptana size={30}  />
-        
-         <p className="text-2xl cursor-pointer">Gerer Restaurant</p>
-     </div>
+     {localStorage.getItem('admin') ==="true" && (
+          <div onClick={() => router.push('/Page/addResto')} className="flex cursor-pointer gap-4">
+            <DiAptana size={30} />
+            <p className="text-2xl cursor-pointer">Gérer Restaurant</p>
+          </div>
+        )}
      <div className="flex gap-4" onClick={HandleLogout}>
          <RiLogoutCircleLine size={30} />
          <p className="text-2xl cursor-pointer" onClick={HandleLogout}>Déconnexion</p>

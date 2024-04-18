@@ -5,16 +5,11 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { IoRestaurant } from "react-icons/io5";
 import { HiMiniMapPin } from "react-icons/hi2";
-import { Button } from "react-bootstrap";
 
 function CardBoutique() {
   const router = useRouter();
   const [shopList, setShopList] = React.useState<any>([]);
- const[isAdmin,setIsAdmin]=React.useState(false)
   const getShopList = async () => {
-    let admin: any = localStorage.getItem("admin");
-    admin = JSON.parse(admin || false);
-    setIsAdmin(admin)
     try {
       const response = await fetch(`http://localhost:8000/backend/restaurant`, {
         method: "GET",
@@ -33,9 +28,6 @@ function CardBoutique() {
       console.error("Login error", e);
     }
   };
-  const goto=()=>{ 
-    
-    router.push("/Page/addResto");}
   // Fonction pour naviguer vers une autre page avec l'ID
   const navigateToOtherPage = (id: number) => {
     setId(id);
@@ -101,7 +93,6 @@ function CardBoutique() {
             </div>
           ))}
         </div>
-       { isAdmin===true?<Button onClick={goto} >add resto</Button>:null}
       </div>
     </section>
   );
