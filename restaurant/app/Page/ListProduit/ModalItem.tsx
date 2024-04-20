@@ -90,7 +90,7 @@ console.log({Item});
                   style={{
                     borderColor: "#5d5d5d",
                     border: "1px solid couleurcadre",
-                  }}
+                  }} key={value.id}
                 >
                   <div className="d-flex justify-content-between align-items-center col pl-1 pr-0">
                     <div className="d-flex align-content-center align-items-center">
