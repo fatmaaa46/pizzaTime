@@ -11,7 +11,6 @@ import { DiAptana } from "react-icons/di";
 import "../profile.css";
 
 
-
  const CompteProfile = ({setShowProfile}:any)=> {
     const router = useRouter();
     const [dataUser, setDataUser] = React.useState(null);
@@ -85,8 +84,11 @@ Mon compte
          <IoMdNotificationsOutline size={30} />
          <p className="text-2xl">Notifications</p>
      </div>
+    
      {localStorage.getItem('admin') ==="true" && (
           <div onClick={() => router.push('/Page/GererRestaurant')} className="flex cursor-pointer gap-4">
+       
+            
             <DiAptana size={30} />
             <p className="text-2xl cursor-pointer">Gérer Restaurant</p>
           </div>
