@@ -1,41 +1,58 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useState } from "react";
 import { Button } from "react-bootstrap";
-
-export default function Addresto() {
+import { v4 } from "uuid";
+interface Restaurants{
+  id: number;
+}
+interface Addresto {
+  restaurant: Restaurants[];
+}
+const Addresto:React.FC<Addresto>=()=> {
+  const router=useRouter()
+  const [restaurant,setRestaurant]=useState<Restaurants[]>([]);
+  const [town, setTown] = useState("");
+  const [ Nature, setNature] = useState("");
+  const [Country, setCountry] = useState("");
   const [image, setImage] = useState("");
   const [PostalCode, setPostalCode] = useState("");
   const [Company, setCompany] = useState("");
+  const [latitude, setlatitude] = useState("");
+  const [longitude, setlongitude] = useState("");
+  const [closingTime, setclosingTime] = useState("");
+  const [openingTime, setopeningTime] = useState("");
   const [Address, setAddress] = useState("");
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
- let shopId:any = localStorage.getItem("shopLength");
+    let shopId: any = localStorage.getItem("shopLength");
+    let id = v4();
     await fetch("http://localhost:8000/backend/restaurant/addresto", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         resto: {
-          town: "Guyancourt",
+          town: town,
           image: image,
-          Nature: "boutique",
+          Nature:  Nature,
           shopid: Number(shopId),
           Address: Address,
           Company: Company,
-          Country: "FRANCE",
-          latitude: 48.76583,
-          longitude: 2.07887,
-          PostalCode: PostalCode,
+          Country: Country,
+          latitude:  Number(latitude),
+          longitude: Number(longitude),
+          PostalCode:PostalCode,
           Responsible: "",
-          closingTime: " 23:00",
-          openingTime: "10:30",
+          closingTime: closingTime,
+          openingTime: openingTime,
         },
         card: {
           etat: "En attente",
           tags: {},
           color: "#FFFFF",
           items: {
-            "96e20fa9-c80a-455d-9ee7-a48e5bcab2b5": {
-              id: 131,
+            [id]: {
+              id:id,
               color: "#FFFFFF",
               price: {
                 tva: 1,
@@ -228,801 +245,8 @@ export default function Addresto() {
               },
               isOptionChoiceEnable: false,
               isItemDesignationShown: true,
-            },
-            "c3e8d57f-c0f8-4372-858e-17d39ed6d405": {
-              id: 195,
-              color: "#FFFFFF",
-              price: {
-                tva: 1,
-                default: 0,
-                priceHT: 22,
-                override: [],
-                advancedPrice: {
-                  "313154d3-9c2d-5f49-beb4-399ff32f806c": {
-                    tva: 10,
-                    priceHT: 0,
-                    pricettc: 0,
-                    methodePrice: "",
-                    scheduledPrice: [],
-                    originalKeyElements: [
-                      "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                      "POS",
-                    ],
-                  },
-                  "5b9fd2d0-dd15-520e-bdd3-6a16ec12a687": {
-                    tva: 10,
-                    priceHT: 0,
-                    pricettc: 0,
-                    methodePrice: "",
-                    scheduledPrice: [],
-                    originalKeyElements: [
-                      "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                      "KIOSK",
-                    ],
-                  },
-                  "952925fa-8b4e-56f6-ad19-02b859b97785": {
-                    tva: 10,
-                    priceHT: 0,
-                    pricettc: 0,
-                    methodePrice: "",
-                    scheduledPrice: [],
-                    originalKeyElements: [
-                      "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                      "KIOSK",
-                    ],
-                  },
-                },
-                saleModeVatRates: [
-                  {
-                    value: 10,
-                    saleModeUuid: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                  },
-                ],
-              },
-              ranks: {
-                default: 1,
-                orderOverride: [
-                  {
-                    Order: 1,
-                    IdShop: 3,
-                  },
-                ],
-              },
-              steps: [],
-              title: "BOLLYWOOD SENIOR",
-              unity: "",
-              prSize: "0",
-              archive: false,
-              barCode: "",
-              options: {},
-              calories: 0,
-              fidelity: 0,
-              imageUrl: {
-                Default: {
-                  urlDefault: "",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              printers: [],
-              quantity: "0",
-              sizeList: "0",
-              variants: [],
-              allergens: [],
-              reference: "000103",
-              isRedirect: false,
-              linkedTags: [],
-              nutriScore: {
-                label: "",
-                value: "",
-              },
-              outOfStock: false,
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "BOLLYWOOD SENIOR",
-                },
-              },
-              suspendSale: [],
-              categoryParent: "9faf8294-ac65-43b3-b63b-18f3837cde3a",
-              stepVisibility: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: false,
-                basicCompositionVisibility: true,
-              },
-              active_quantity: false,
-              categoryLiaison: [],
-              isCommentEnable: false,
-              basicComposition: {
-                "3598af43-75a1-41f7-bb6c-50e0dc1a3191": {
-                  rank: 2,
-                  title: "VIANDE HACHEE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "53ea41b1-89b5-4945-b8c1-1e089d4766de": {
-                  rank: 4,
-                  title: "SAUCE BARBECUE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a2a9eb2f-b443-4c40-9616-4c3981f50e90": {
-                  rank: 3,
-                  title: "OIGNONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a4906a78-551e-46d8-9b47-107909e0e90c": {
-                  rank: 1,
-                  title: "SAUCE TOMATE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb12f": {
-                  rank: 5,
-                  title: "FROMAGE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb13f": {
-                  rank: 5,
-                  title: "POIVRONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-              },
-              isOptionChoiceEnable: false,
-              isItemDesignationShown: true,
-            },
-            "e6f00e76-a983-4b55-949b-12a2f776187d": {
-              id: 135,
-              color: "#FFFFFF",
-              price: {
-                tva: 1,
-                default: 0,
-                priceHT: 4.5,
-                override: [],
-                advancedPrice: {
-                  "06dfd3fb-80dd-558b-bea1-4b770bac6217": {
-                    tva: 10,
-                    priceHT: 4.5,
-                    pricettc: 0,
-                    methodePrice: "",
-                    scheduledPrice: [],
-                    originalKeyElements: [
-                      "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                      "APP",
-                    ],
-                  },
-                },
-                saleModeVatRates: [
-                  {
-                    value: 10,
-                    saleModeUuid: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "d95b28cd-21eb-42a1-87fc-4f8dc58af8d7",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                  },
-                ],
-              },
-              ranks: {
-                default: 1,
-                orderOverride: [
-                  {
-                    Order: 1,
-                    IdShop: 2,
-                  },
-                ],
-              },
-              steps: ["83c955e0-ef91-4926-8fb4-3b2c766e4927"],
-              title: "BOLLYWOOD BIGGY SLICE",
-              unity: "",
-              prSize: "0",
-              archive: false,
-              barCode: "",
-              options: {},
-              calories: 0,
-              fidelity: 0,
-              imageUrl: {
-                Default: {
-                  urlDefault: "/imageResto/guyancourt/3.jpg",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              printers: [],
-              quantity: "0",
-              sizeList: "0",
-              variants: [],
-              allergens: [],
-              reference: "000073",
-              isRedirect: false,
-              linkedTags: [],
-              nutriScore: {
-                label: "",
-                value: "",
-              },
-              outOfStock: false,
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "BOLLYWOOD BIGGY SLICE",
-                },
-              },
-              suspendSale: [],
-              categoryParent: "b0b7629d-cb5d-441e-a709-a54e83d1e7d4",
-              stepVisibility: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              active_quantity: false,
-              categoryLiaison: [],
-              isCommentEnable: false,
-              basicComposition: {
-                "3598af43-75a1-41f7-bb6c-50e0dc1a3191": {
-                  rank: 2,
-                  title: "CREME FRAICHE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "53ea41b1-89b5-4945-b8c1-1e089d4766de": {
-                  rank: 4,
-                  title: "OIGNONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a2a9eb2f-b443-4c40-9616-4c3981f50e90": {
-                  rank: 3,
-                  title: "POULET EPICE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a4906a78-551e-46d8-9b47-107909e0e90c": {
-                  rank: 1,
-                  title: "POIVRONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb12f": {
-                  rank: 5,
-                  title: "SAUCE CURRY",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb13f": {
-                  rank: 5,
-                  title: "FROMAGE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-              },
-              isOptionChoiceEnable: false,
-              isItemDesignationShown: true,
-            },
-            "e6f00e76-a983-4b55-949b-12a2f776188d": {
-              id: 135,
-              color: "#FFFFFF",
-              price: {
-                tva: 1,
-                default: 0,
-                priceHT: 26.9,
-                override: [],
-                advancedPrice: {
-                  "06dfd3fb-80dd-558b-bea1-4b770bac6217": {
-                    tva: 10,
-                    priceHT: 24,
-                    pricettc: 0,
-                    methodePrice: "",
-                    scheduledPrice: [],
-                    originalKeyElements: [
-                      "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                      "APP",
-                    ],
-                  },
-                },
-                saleModeVatRates: [
-                  {
-                    value: 10,
-                    saleModeUuid: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "d95b28cd-21eb-42a1-87fc-4f8dc58af8d7",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                  },
-                ],
-              },
-              ranks: {
-                default: 1,
-                orderOverride: [
-                  {
-                    Order: 1,
-                    IdShop: 2,
-                  },
-                ],
-              },
-              steps: ["83c955e0-ef91-4926-8fb4-3b2c766e4927"],
-              title: "BOLLYWOOD MEGA",
-              unity: "",
-              prSize: "0",
-              archive: false,
-              barCode: "",
-              options: {},
-              calories: 0,
-              fidelity: 0,
-              imageUrl: {
-                Default: {
-                  urlDefault: "/imageResto/guyancourt/3.jpg",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              printers: [],
-              quantity: "0",
-              sizeList: "0",
-              variants: [],
-              allergens: [],
-              reference: "000073",
-              isRedirect: false,
-              linkedTags: [],
-              nutriScore: {
-                label: "",
-                value: "",
-              },
-              outOfStock: false,
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "BOLLYWOOD MEGA",
-                },
-              },
-              suspendSale: [],
-              categoryParent: "b0b7629d-cb5d-441e-a709-a54e83d1e7d4",
-              stepVisibility: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              active_quantity: false,
-              categoryLiaison: [],
-              isCommentEnable: false,
-              basicComposition: {
-                "3598af43-75a1-41f7-bb6c-50e0dc1a3191": {
-                  rank: 2,
-                  title: "CREME FRAICHE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "53ea41b1-89b5-4945-b8c1-1e089d4766de": {
-                  rank: 4,
-                  title: "OIGNONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a2a9eb2f-b443-4c40-9616-4c3981f50e90": {
-                  rank: 3,
-                  title: "POULET EPICE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a4906a78-551e-46d8-9b47-107909e0e90c": {
-                  rank: 1,
-                  title: "POIVRONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb12f": {
-                  rank: 5,
-                  title: "SAUCE CURRY",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb13f": {
-                  rank: 5,
-                  title: "FROMAGE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-              },
-              isOptionChoiceEnable: false,
-              isItemDesignationShown: true,
-            },
-            "fc8f5ed3-10aa-4568-9fca-80897335b1a1": {
-              id: 133,
-              color: "#FFFFFF",
-              price: {
-                tva: 1,
-                default: 0,
-                priceHT: 24,
-                override: [],
-                advancedPrice: {
-                  "06dfd3fb-80dd-558b-bea1-4b770bac6217": {
-                    tva: 10,
-                    priceHT: 0,
-                    pricettc: 0,
-                    methodePrice: "",
-                    scheduledPrice: [],
-                    originalKeyElements: [
-                      "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                      "APP",
-                    ],
-                  },
-                },
-                saleModeVatRates: [
-                  {
-                    value: 10,
-                    saleModeUuid: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "d95b28cd-21eb-42a1-87fc-4f8dc58af8d7",
-                  },
-                  {
-                    value: 10,
-                    saleModeUuid: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                  },
-                ],
-              },
-              ranks: {
-                default: 2,
-                orderOverride: [
-                  {
-                    Order: 2,
-                    IdShop: 2,
-                  },
-                ],
-              },
-              steps: ["2c014412-5cca-4731-93dd-8af19ed308be"],
-              title: "BUFFALO JUNIOR",
-              unity: "",
-              prSize: "0",
-              archive: false,
-              barCode: "",
-              options: {},
-              calories: 0,
-              fidelity: 0,
-              imageUrl: {
-                Default: {
-                  urlDefault: "/imageResto/guyancourt/14.jpg",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              printers: [],
-              quantity: "0",
-              sizeList: "0",
-              variants: [],
-              allergens: [],
-              reference: "000072",
-              isRedirect: false,
-              linkedTags: [],
-              nutriScore: {
-                label: "",
-                value: "",
-              },
-              outOfStock: false,
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "BUFFALO JUNIOR",
-                },
-              },
-              suspendSale: [],
-              categoryParent: "8346f084-2db1-4349-846d-27a547a79d35",
-              stepVisibility: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              active_quantity: false,
-              categoryLiaison: [],
-              isCommentEnable: false,
-              basicComposition: {
-                "3598af43-75a1-41f7-bb6c-50e0dc1a3191": {
-                  rank: 2,
-                  title: "CREME FRAICHE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "53ea41b1-89b5-4945-b8c1-1e089d4766de": {
-                  rank: 4,
-                  title: "OIGNONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a2a9eb2f-b443-4c40-9616-4c3981f50e90": {
-                  rank: 3,
-                  title: "POULET EPICE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "a4906a78-551e-46d8-9b47-107909e0e90c": {
-                  rank: 1,
-                  title: "POIVRONS",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb12f": {
-                  rank: 5,
-                  title: "SAUCE CURRY",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-                "b6e8c09d-907c-4616-811b-21bcb6edb13f": {
-                  rank: 5,
-                  title: "FROMAGE",
-                  quantity: 1,
-                  isVisible: true,
-                  isObligatory: false,
-                },
-              },
-              isOptionChoiceEnable: false,
-              isItemDesignationShown: true,
-            },
+            }
+       
           },
           steps: {
             "2c014412-5cca-4731-93dd-8af19ed308be": {
@@ -1823,8 +1047,8 @@ export default function Addresto() {
           },
           shoptitle: "boutique 01 catalogue ",
           categories: {
-            "8346f084-2db1-4349-846d-27a547a79d35": {
-              id: 85,
+            [id]: {
+              id: id,
               color: "#FFFFFF",
               items: [
                 "96e20fa9-c80a-455d-9ee7-a48e5bcab2b5",
@@ -1906,246 +1130,6 @@ export default function Addresto() {
               linkedChildCategories: [],
               isInformationModeActivated: true,
             },
-            "9faf8294-ac65-43b3-b63b-18f3837cde3a": {
-              id: 170,
-              color: "#FFFFFF",
-              items: ["c3e8d57f-c0f8-4372-858e-17d39ed6d405"],
-              ranks: {
-                default: 1,
-                orderOverride: [
-                  {
-                    Order: 1,
-                    IdShop: 3,
-                  },
-                ],
-              },
-              title: "senior",
-              video: {
-                url: "",
-                type: "",
-              },
-              idCard: 1,
-              archive: false,
-              imageUrl: {
-                Default: {
-                  urlDefault: "/imageResto/guyancourt/2.jpg",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              reference: "000170",
-              linkedTags: [],
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "senior",
-                },
-              },
-              linkedItems: [],
-              categoryChild: [],
-              categoryParent: "",
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: false,
-                basicCompositionVisibility: true,
-              },
-              categoryLiaison: [],
-              isNameDisplayed: false,
-              linkedChildCategories: [],
-              isInformationModeActivated: true,
-            },
-            "b0b7629d-cb5d-441e-a709-a54e83d1e7d4": {
-              id: 87,
-              color: "#FFFFFF",
-              items: ["e6f00e76-a983-4b55-949b-12a2f776188d"],
-              ranks: {
-                default: 2,
-                orderOverride: [
-                  {
-                    Order: 2,
-                    IdShop: 2,
-                  },
-                ],
-              },
-              title: "mega",
-              video: {
-                url: "",
-                type: "",
-              },
-              idCard: 1,
-              archive: false,
-              imageUrl: {
-                Default: {
-                  urlDefault: "/imageResto/guyancourt/3.jpg",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              reference: "00087",
-              linkedTags: [],
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "mega",
-                },
-              },
-              linkedItems: [],
-              categoryChild: [],
-              categoryParent: "",
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              categoryLiaison: [],
-              isNameDisplayed: false,
-              linkedChildCategories: [],
-              isInformationModeActivated: true,
-            },
-            "b0b7629d-cb5d-441e-a709-a54e83d1e7d5": {
-              id: 87,
-              color: "#FFFFFF",
-              items: ["e6f00e76-a983-4b55-949b-12a2f776187d"],
-              ranks: {
-                default: 2,
-                orderOverride: [
-                  {
-                    Order: 2,
-                    IdShop: 2,
-                  },
-                ],
-              },
-              title: "Biggy slice",
-              video: {
-                url: "",
-                type: "",
-              },
-              idCard: 1,
-              archive: false,
-              imageUrl: {
-                Default: {
-                  urlDefault: "/imageResto/guyancourt/4.jpg",
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              reference: "00087",
-              linkedTags: [],
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "mega",
-                },
-              },
-              linkedItems: [],
-              categoryChild: [],
-              categoryParent: "",
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              categoryLiaison: [],
-              isNameDisplayed: false,
-              linkedChildCategories: [],
-              isInformationModeActivated: true,
-            },
           },
           allergenGroups: {
             "7efb7e13-d542-4c20-8e36-535129686dcb": {
@@ -2182,9 +1166,9 @@ export default function Addresto() {
         },
       }),
     });
-    shopId=Number(shopId)+1
-    localStorage.setItem('shopLength',shopId)
 
+    shopId = Number(shopId) + 1;
+    localStorage.setItem("shopLength", shopId);
   };
 
   return (
@@ -2192,7 +1176,9 @@ export default function Addresto() {
       <h1>Ajouter restaurant</h1>
       <form className="form_main" action="">
         <div className="inputContainer">
+          Image: 
           <input
+           placeholder="Image"
             id="image"
             className="inputField"
             type="text"
@@ -2201,7 +1187,18 @@ export default function Addresto() {
           />
         </div>
         <div className="inputContainer">
-          <label>NomCompany</label>
+          <label>Town: </label>
+          <input
+            placeholder="Town"
+            id="Town"
+            className="inputField"
+            type="text"
+            onChange={(e) => setTown(e.target.value)}
+            required
+          />
+        </div>
+        <div className="inputContainer">
+          <label>NomCompany: </label>
           <input
             placeholder="nom restaurant"
             id="company"
@@ -2211,9 +1208,20 @@ export default function Addresto() {
             required
           />
         </div>
-      
         <div className="inputContainer">
-          <label>Address</label>
+          <label>Country: </label>
+          <input
+            placeholder="Country"
+            id="Country"
+            className="inputField"
+            type="text"
+            onChange={(e) => setCountry(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="inputContainer">
+          <label>Address: </label>
           <input
             placeholder="Address"
             id="address"
@@ -2224,7 +1232,51 @@ export default function Addresto() {
           />
         </div>
         <div className="inputContainer">
-          <label>PostalCode</label>
+          <label>latitude: </label>
+          <input
+            placeholder="latitude"
+            id="latitude"
+            className="inputField"
+            type="number"
+            onChange={(e) => setlatitude(e.target.value)}
+            required
+          />
+        </div>
+        <div className="inputContainer">
+          <label>longitude: </label>
+          <input
+            placeholder="longitude"
+            id="longitude"
+            className="inputField"
+            type="number"
+            onChange={(e) => setlongitude(e.target.value)}
+            required
+          />
+        </div>
+        <div className="inputContainer">
+          <label>openingTime: </label>
+          <input
+            placeholder="openingTime"
+            id="openingTime"
+            className="inputField"
+            type="text"
+            onChange={(e) => setopeningTime(e.target.value)}
+            required
+          />
+        </div>
+        <div className="inputContainer">
+          <label>closingTime: </label>
+          <input
+            placeholder="closingTime"
+            id="closingTime"
+            className="inputField"
+            type="text"
+            onChange={(e) => setclosingTime(e.target.value)}
+            required
+          />
+        </div>
+        <div className="inputContainer">
+          <label>PostalCode: </label>
           <input
             placeholder="PostalCode"
             id="postalCode"
@@ -2234,8 +1286,20 @@ export default function Addresto() {
             required
           />
         </div>
-        <Button onClick={handleSubmit}>add</Button>
+        <div className="inputContainer">
+          <label>Nature: </label>
+          <input
+            placeholder="Nature"
+            id="postalCode"
+            className="inputField"
+            type="text"
+            onChange={(e) => setNature(e.target.value)}
+            required
+          />
+        </div>
+        <Button onClick={handleSubmit}>Ajouter </Button>
       </form>
     </div>
   );
 }
+export default Addresto;

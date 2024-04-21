@@ -9,7 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
     "ra-data-simple-rest": "^4.16.15",
-    "react-admin": "^4.16.15"
+    "react": "^18.2.0",
+    "react-admin": "^4.16.15",
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.8"
   }
 }
