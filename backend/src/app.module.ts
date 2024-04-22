@@ -16,7 +16,7 @@ import { RestoModule } from './resto/resto.module';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'root',
+      password: '0000',
       database: 'pizzatime',
       autoLoadEntities:true,
       synchronize:true,

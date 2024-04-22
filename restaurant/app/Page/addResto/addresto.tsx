@@ -3,15 +3,9 @@ import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useState } from "react";
 import { Button } from "react-bootstrap";
 import { v4 } from "uuid";
-interface Restaurants{
-  id: number;
-}
-interface Addresto {
-  restaurant: Restaurants[];
-}
-const Addresto:React.FC<Addresto>=()=> {
+
+export function  Addresto(){
   const router=useRouter()
-  const [restaurant,setRestaurant]=useState<Restaurants[]>([]);
   const [town, setTown] = useState("");
   const [ Nature, setNature] = useState("");
   const [Country, setCountry] = useState("");
