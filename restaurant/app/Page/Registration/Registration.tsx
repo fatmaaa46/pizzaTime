@@ -143,7 +143,7 @@ const Registration = () => {
             id="motdepasse"
             className="inputField"
             type="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) =>setConfirmPassword(e.target.value)}
             required
           />
         </div>
