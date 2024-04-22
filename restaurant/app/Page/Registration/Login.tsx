@@ -1,4 +1,5 @@
-import React, { useState, SyntheticEvent } from 'react';
+import React, { useState, useEffect } from 'react';
+import { SyntheticEvent } from 'react';
 import Registration from './Registration';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +11,7 @@ const Login = ({ setShowRegistration, showRegistration }: any) => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault(); // Empêche le rechargement de la page par défaut du formulaire
+    e.preventDefault();
 
     try {
       const response = await fetch('http://localhost:8000/backend/user/login', {
@@ -24,7 +25,6 @@ const Login = ({ setShowRegistration, showRegistration }: any) => {
       if (response.ok && data.statusCode === 200) {
         setShowProfile(true);
 
-        // Vérifier et définir le statut administrateur en fonction de l'email
         localStorage.setItem('admin', email === 'hamrounicukur@gmail.com' ? 'true' : 'false');
 
         if (data.data !== undefined) {
@@ -53,11 +53,28 @@ const Login = ({ setShowRegistration, showRegistration }: any) => {
     }
   };
 
+  useEffect(() => {
+    getData();
+  }, []); 
+
+  const getData = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        setShowProfile(true);
+      }
+    } catch (error) {
+      console.log('Erreur lors de la récupération des données utilisateur', error);
+    }
+  };
+
   return (
     <div>
       <ToastContainer limit={1} />
 
-      {!showProfile ? (
+      {showProfile ? (
+        <CompteProfile setShowProfile={setShowProfile} />
+      ) : (
         <form className="form_main" onSubmit={handleSubmit}>
           {!showRegistration ? (
             <>
@@ -98,8 +115,6 @@ const Login = ({ setShowRegistration, showRegistration }: any) => {
             <Registration />
           )}
         </form>
-      ) : (
-        <CompteProfile setShowProfile={setShowProfile} />
       )}
     </div>
   );

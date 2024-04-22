@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import { Button, Modal } from "react-bootstrap";
 import Image from "next/image";
 import moto from "../../../public/image/moto.png";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useSnapshot } from "valtio";
 import store from "@/app/components/store";
 
+
 const ModalCategorie: any = ({ showModal, setShowModal }: any) => {
   const toggle = () => setShowModal(!showModal);
   const router = useRouter();
@@ -16,33 +17,51 @@ const ModalCategorie: any = ({ showModal, setShowModal }: any) => {
   console.log({ selectedCategorie });
   const [chosenOption, setChosenOption] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
+  const [showProfile, setShowProfile] = useState(false);
 
   const handleOptionClick = (option: string) => {
     setChosenOption(option);
   };
-
+  // ************************
   const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedTime(event.target.value);
   };
 
-  const handleValidateClick = () => {
-    if (selectedTime === "") {
-      alert("insert time");
-    } else if (chosenOption === "emporter") {
-      router.push("/Page/Registration");
-      // router.push("/Page/ListProduit");
+  // **************************
 
-    } else if (chosenOption === "livraison") {
-      alert("choose sale mode");
-    } else {
-      router.push("/components/DropDown");
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        setShowProfile(true);
+      }
+    } catch (error) {
+      console.log('Erreur lors de la récupération des données utilisateur', error);
     }
+  };
+
+
+  // **************************
+  const handleValidateClick = () => {
+
+    selectedTime === "" ?
+      (alert("insert time"), setTimeout(() => router.push('/'), 3000))
+      : chosenOption === "emporter" ? (showProfile ? router.push("/Page/Profile") :
+        setTimeout(() => { alert("Connectez-vous d'abord s'il vous plaît"), router.push('/'), 3000 })) :
+        chosenOption === "livraison" ?
+          (showProfile ? router.push("/components/DropDown") :
+            setTimeout(() => { alert("Connectez-vous d'abord s'il vous plaît"), router.push('/'), 3000 }))
+          : NaN;
+
+
     toggle();
   };
 
-  // const handleCloseClick = () => {
-  //   setModal(false);
-  // };
+
 
   return (
     <Modal show={showModal} onHide={toggle}>

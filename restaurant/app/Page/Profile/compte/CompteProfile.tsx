@@ -11,56 +11,58 @@ import { DiAptana } from "react-icons/di";
 import "../profile.css";
 
 
- const CompteProfile = ({setShowProfile}:any)=> {
+const CompteProfile = ({ setShowProfile }: any) => {
     const router = useRouter();
     const [dataUser, setDataUser] = React.useState(null);
 
-const HandleLogout = async () => {
-    await fetch("http://localhost:8000/backend/user/logout", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    });
-    localStorage.setItem("CartItem",JSON.stringify(null))        
-    await getData();
-    setShowProfile(false)
-    localStorage.removeItem("userId")
-    router.push("/");
-};
-const getData =async () => {
-    try {
-        const userId=localStorage.getItem("userId")
-console.log({userId});
-
-        const response = await fetch(`http://localhost:8000/backend/user/${userId}`, {
-            method: "GET",
+    const HandleLogout = async () => {
+        await fetch("http://localhost:8000/backend/user/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             credentials: "include",
         });
-        if (!response.ok) {
-            throw new Error('Failed to fetch data');
+        localStorage.setItem("CartItem", JSON.stringify(null))
+        await getData();
+        setShowProfile(false)
+        localStorage.removeItem("userId")
+        router.push("/");
+    };
+    const getData = async () => {
+        try {
+            const userId = localStorage.getItem("userId")
+            console.log({ userId });
+
+
+            const response = await fetch(`http://localhost:8000/backend/user/${userId}`, {
+                method: "GET",
+                credentials: "include",
+            });
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const jsonData = await response.json();
+            setDataUser(jsonData);
+        } catch (e) {
+            console.error('Login error', e);
         }
-        const jsonData = await response.json();
-        setDataUser(jsonData);
-    } catch (e) {
-        console.error('Login error', e);
     }
-  }
-  React.useEffect(() => {
-    if (!dataUser) {
-    getData();
-console.log(dataUser)}
-}, []); 
-   return (
-     <div>   
-        <div className="w-100 d-flex justify-content-center align-items-center">
-<span className="font-weight-bold d-flex justify-content-center align-items-center mr-2" style={{}}>
-Mon compte
-</span>
-</div>
-<div className="grid flex-row-6  gap-5 p-4">
-     <div
-         onClick={() => {
-         router.push("/Page/Profile");
+    React.useEffect(() => {
+        if (!dataUser) {
+            getData();
+            console.log(dataUser)
+        }
+    }, []);
+    return (
+        <div>
+            <div className="w-100 d-flex justify-content-center align-items-center">
+                <span className="font-weight-bold d-flex justify-content-center align-items-center mr-2" style={{}}>
+                    Mon compte
+                </span>
+            </div>
+            <div className="grid flex-row-6  gap-5 p-4">
+                <div
+                    onClick={() => {
+                        router.push("/Page/Profile");
 
          }} 
          className="flex cursor-pointer gap-4"
@@ -84,11 +86,8 @@ Mon compte
          <IoMdNotificationsOutline size={30} />
          <p className="text-2xl">Notifications</p>
      </div>
-    
      {localStorage.getItem('admin') ==="true" && (
           <div onClick={() => router.push('/Page/GererRestaurant')} className="flex cursor-pointer gap-4">
-       
-            
             <DiAptana size={30} />
             <p className="text-2xl cursor-pointer">Gérer Restaurant</p>
           </div>
