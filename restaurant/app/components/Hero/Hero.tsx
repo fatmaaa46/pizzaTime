@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import "./styleHero.css";
 import { FaPizzaSlice } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { SiGooglemaps } from "react-icons/si";
 import { useRouter } from "next/navigation";
 
 function Hero() {
-  const router= useRouter()
+  const router = useRouter();
   return (
     <>
       <div className="hero_area mb-5">
@@ -26,7 +26,7 @@ function Hero() {
               <div className="col-lg-10 mx-auto">
                 <div className="detail-box">
                   <h1>
-                    Pizza Time {" "}<FaPizzaSlice />
+                    Pizza Time <FaPizzaSlice />
                   </h1>
                   <p>
                     Profitez de notre délicieux repas
@@ -37,34 +37,20 @@ function Hero() {
                 <div className="find_container">
                   <div className="container">
                     <form className="row">
-                      <div className="form-group col-sm">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="inputHotel"
-                          placeholder="Restaurant Name"
-                        />
-                      </div>
-
                       <div
                         style={{ fontSize: "150%" }}
-                        className="form-group col-sm d-flex align-items-center"
-                      >
-                        <button 
-                        onClick={()=>router.push("/map")}
+                        className="form-group col-sm d-flex align-items-center"  >
+                        <button
+                          onClick={() => router.push("/map")}
                           type="button"
-                          className="form-control"
+                          className=" d-flex text-align-center align-items-center form-control "
                           id="inputLocation"
                           
-                        > <SiGooglemaps /></button>
+                        >
+                          <SiGooglemaps />  Nos Restaurant à proximité 
+                        </button>
                       </div>
-                      <div className="form-group col-sm">
-                        <div className="btn-box">
-                          <button type="submit" className="btn">
-                            Search
-                          </button>
-                        </div>
-                      </div>
+                  
                     </form>
                   </div>
                 </div>

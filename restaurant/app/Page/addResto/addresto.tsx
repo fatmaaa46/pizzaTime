@@ -1181,17 +1181,6 @@ export function  Addresto(){
           />
         </div>
         <div className="inputContainer">
-          <label>Town: </label>
-          <input
-            placeholder="Town"
-            id="Town"
-            className="inputField"
-            type="text"
-            onChange={(e) => setTown(e.target.value)}
-            required
-          />
-        </div>
-        <div className="inputContainer">
           <label>NomCompany: </label>
           <input
             placeholder="nom restaurant"
@@ -1222,28 +1211,6 @@ export function  Addresto(){
             className="inputField"
             type="text"
             onChange={(e) => setAddress(e.target.value)}
-            required
-          />
-        </div>
-        <div className="inputContainer">
-          <label>latitude: </label>
-          <input
-            placeholder="latitude"
-            id="latitude"
-            className="inputField"
-            type="number"
-            onChange={(e) => setlatitude(e.target.value)}
-            required
-          />
-        </div>
-        <div className="inputContainer">
-          <label>longitude: </label>
-          <input
-            placeholder="longitude"
-            id="longitude"
-            className="inputField"
-            type="number"
-            onChange={(e) => setlongitude(e.target.value)}
             required
           />
         </div>
@@ -1280,17 +1247,7 @@ export function  Addresto(){
             required
           />
         </div>
-        <div className="inputContainer">
-          <label>Nature: </label>
-          <input
-            placeholder="Nature"
-            id="postalCode"
-            className="inputField"
-            type="text"
-            onChange={(e) => setNature(e.target.value)}
-            required
-          />
-        </div>
+ 
         <Button onClick={handleSubmit}>Ajouter </Button>
       </form>
     </div>

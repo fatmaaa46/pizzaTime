@@ -12,7 +12,6 @@ interface Product {
   card: [];
   shopid: number;
   Company: string;
-  town: string;
   shoptitle: string;
 }
 
@@ -79,10 +78,9 @@ const ProductList: React.FC<ProductListProps> = (props) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Town</th>
+          
             <th>Company</th>
             <th>Shop ID</th>
-            <th>Card Restaurant</th>
             <th>Modifier</th>
             <th>Supprimer</th>
           </tr>
@@ -90,10 +88,8 @@ const ProductList: React.FC<ProductListProps> = (props) => {
         <tbody>
           {product.map((value) => (
             <tr key={value.id}>
-              <td>{value.resto.town}</td>
               <td>{value.resto.Company}</td>
               <td>{value.resto.shopid}</td>
-              <td>{value.card.shoptitle}</td>
               <td>
                 <Button>
                   <GrUpdate />
