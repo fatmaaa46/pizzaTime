@@ -4,7 +4,8 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { Product } from '../product.entity';
 
 @Injectable()
-export class RestoService {
+export class ProductService {
+ 
   constructor(
     @InjectRepository(Product) private readonly productRepository: Repository<Product>,
 
@@ -29,4 +30,24 @@ async update(id: number, Product: Product
   return await this.productRepository.findOne({ where: { id } });
 }
 
+
+async findOneProduct(condition): Promise<Product> {
+  return this.productRepository.findOne(condition);
+}
+
+async save(product: Product): Promise<Product> {
+  return this.productRepository.save(product);
+}
+
+async updateProduct(id: string): Promise<void> {
+  await this.productRepository.delete(id);
+}
+
+async deleteItem(id: any): Promise<void> {
+  await this.productRepository.delete(id);
+}
+
+saveItems(items: any): Promise<Product> {
+  return this.productRepository.save(items);
+}
 }

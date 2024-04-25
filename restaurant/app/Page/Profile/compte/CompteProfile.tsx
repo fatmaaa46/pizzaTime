@@ -26,6 +26,7 @@ const CompteProfile = ({ setShowProfile }: any) => {
         setShowProfile(false)
         localStorage.removeItem("userId")
         router.push("/");
+        localStorage.clear()
     };
     const getData = async () => {
         try {

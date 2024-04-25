@@ -24,7 +24,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
   const [product, setProduct] = useState<Product[]>([]);
 
   const goTo = () => {
-    router.push("/Page/addResto")
+    router.push("/Page/product/addResto")
   };
 
   const deleteProducts = async (id: number) => {

@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/Page/GererRestaurant/Admin.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/Page/GererRestaurant/Admin.tsx", "app/Page/product/addCategorie"],
   "exclude": ["node_modules"]
 }

@@ -1,34 +1,30 @@
-import {ConfigModule, ConfigService} from'@nestjs/config';
+import {ConfigModule} from'@nestjs/config';
 import { TypeOrmModule} from '@nestjs/typeorm'
+import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { ProductModule } from './product/module/product.module';
+import { User } from './user/user.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Module } from '@nestjs/common';
-import { User } from './user.entity';
-import { Product } from './product.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { RestoModule } from './resto/resto.module';
+import { UserModule } from './user/module/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true}),
+    ConfigModule.forRoot({isGlobal:true}),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '0000',
-      database: 'pizzatime',
+      host: process.env.POSTGRES_HOST,
+      port: parseInt(<string> process.env.POSTGRES_PORT),
+      username: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DATABASE,
       autoLoadEntities:true,
       synchronize:true,
 
     }),
-    TypeOrmModule.forFeature([User,Product]),
 
-    JwtModule.register({
-      secret:'secret',
-      signOptions:{expiresIn: '1d'}                
-  }),
-  RestoModule,
+  UserModule,
+  ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

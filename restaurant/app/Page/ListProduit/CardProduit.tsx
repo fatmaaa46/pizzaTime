@@ -30,13 +30,14 @@ function CardProduit() {
         <div className="shop container">
             {Object.entries(card.workflow).map(([key, value]: any) => (
                 <div className=" my-2 " key={key}>
-                    <h5 className="card-title my-5" id={key}>{card[value.type][key].title}</h5>
+                    <h5 className="card-title my-5" id={key}>{card[value.type][key]?.title}</h5>
+                    <h5 className="card-title my-5" id={key}>{card[value.type][key]?.items}</h5>
                     <div className="row row-cols-1 row-cols-md-4">
                         {Object.entries(value.content).map(
                             ([innerKey, innerValue]: any, index: number) => {
                                 const product = card[innerValue.type][innerKey];
                                 const imageUrl =
-                                    product.imageUrl.Default.urlDefault ||
+                                    product?.imageUrl.Default.urlDefault ||
                                     "https://www.commande-pizzatime.fr/CESARWEB_WEB/repimage/83bbc4350c114000b0e2d6c4ff204215/3/web/Famille122.webp";
 
                                 const handleClick = () => {
