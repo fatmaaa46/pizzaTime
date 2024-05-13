@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import {  Repository, UpdateResult } from 'typeorm';
 import { Product } from '../product.entity';
 
 @Injectable()
@@ -49,5 +49,10 @@ async deleteItem(id: any): Promise<void> {
 
 saveItems(items: any): Promise<Product> {
   return this.productRepository.save(items);
+}
+
+
+async findCategoriesByProductId(): Promise<Product[]> {
+  return await this.productRepository.find();
 }
 }

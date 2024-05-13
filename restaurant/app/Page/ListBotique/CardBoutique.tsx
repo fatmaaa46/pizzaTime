@@ -1,7 +1,6 @@
 "use client";
 import Icons from "@/app/components/Icons/Icons";
 import { setId } from "@/app/components/store";
-import { Listcard } from "@/app/constants/Listcard";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoRestaurant } from "react-icons/io5";
@@ -10,7 +9,12 @@ import { HiMiniMapPin } from "react-icons/hi2";
 function CardBoutique() {
   const router = useRouter();
   const [shopList, setShopList] = React.useState<any>([]);
+  const [isAdmin, setIsAdmin] = React.useState(false);
+
   const getShopList = async () => {
+    let admin: any = localStorage.getItem("admin");
+    admin = JSON.parse(admin || false);
+    setIsAdmin(admin);
     try {
       const response = await fetch(`http://localhost:8000/backend/restaurant`, {
         method: "GET",
@@ -19,39 +23,34 @@ function CardBoutique() {
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
-     
       const jsonData = await response.json();
-      console.log({jsonData});
-      
+      console.log({ jsonData });
       setShopList(jsonData);
-      localStorage.setItem('shopLength',jsonData.length)
+      localStorage.setItem("shop", JSON.stringify(jsonData));
+      localStorage.setItem("shopLength", jsonData.length);
     } catch (e) {
       console.error("Login error", e);
     }
   };
-  // Fonction pour naviguer vers une autre page avec l'ID
+
   const navigateToOtherPage = (id: number) => {
     setId(id);
     localStorage.setItem("id", id.toString());
     var jsonString = JSON.stringify(shopList[id]?.card);
 
-    // Sample JSON data
-    var jsonData = {}
-    for(const key of shopList){
-      if(key.resto.shopid ===id){
-      jsonData={
-      workflow: key?.card.workflow,
-      categories: key?.card.categories,
-      items: key?.card.items,
-      id:key?.id,
-    };
+    var jsonData = {};
+    for (const key of shopList) {
+      if (key.resto.shopid === id) {
+        jsonData = {
+          workflow: key?.card.workflow,
+          categories: key?.card.categories,
+          items: key?.card.items,
+          id: key?.id,
+        };
+      }
     }
-  }
 
-    // Convert JSON data to a string
     var jsonString = JSON.stringify(jsonData);
-
-    // Store the JSON string in localStorage
     localStorage.setItem("card", jsonString);
 
     router.push("/components/Boutiques");
@@ -69,33 +68,52 @@ function CardBoutique() {
             <IoRestaurant /> Bienvenue au Pizza Time <IoRestaurant />
           </h2>
         </div>
-
         <div className="row">
           {Object.values(shopList).map((item: any, id: number) => (
             <div
               className="col-md-4 my-3"
               key={id}
-              onClick={() =>{    localStorage.setItem("resto", JSON.stringify(item.resto));
-              navigateToOtherPage(item.resto.shopid)}}
-              style={{
-                cursor: "pointer",
+              onClick={() => {
+                localStorage.setItem("resto", JSON.stringify(item?.resto));
+                localStorage.setItem(
+                  "idResto",
+                  JSON.stringify(item?.resto.shopid)
+                );
+                localStorage.setItem(
+                  "latitude",
+                  JSON.stringify(item?.resto.latitude)
+                );
+                localStorage.setItem(
+                  "longitude",
+                  JSON.stringify(item?.resto.longitude)
+                );
               }}
             >
-              <div className="box">
-                <div className="img-box">
-                  <img src={item.resto.image} className="box-img" alt="" />
+              <div
+                className="box"
+                onClick={() => navigateToOtherPage(item?.resto.shopid)}
+              >
+                <div
+                  className="img-box"
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <img src={item?.resto.image} className="box-img" alt="" />
                 </div>
                 <div className="detail-box">
-                  <h4> {item.resto.Company}</h4>
+                  <h4> {item?.resto.Company}</h4>
                   <p>
                     {" "}
                     <HiMiniMapPin />
-                    {item.resto.Address}, {item.resto.PostalCode} {item.resto.town}
+                    {item?.resto.Address}, {item?.resto.PostalCode}{" "}
+                    {item?.resto.town}
                   </p>
                 </div>
                 <div>
                   <Icons />
                 </div>
+                <br />
               </div>
             </div>
           ))}

@@ -7,40 +7,47 @@ import { useSnapshot } from "valtio";
 function ModalItem({ modal, setModal, Item }: any) {
   const { Panier } = useSnapshot(store);
   const toggle = () => setModal(!modal);
-  const [Somme, SetSomme] = React.useState(Item.price.priceHT??0);
-console.log({Item});
+  const [Somme, SetSomme] = React.useState(Item.price.priceHT ?? 0);
+  console.log({ Item });
 
   const imageUrl =
     Item.imageUrl.Default.urlDefault ||
     "https://www.commande-pizzatime.fr/CESARWEB_WEB/repimage/83bbc4350c114000b0e2d6c4ff204215/3/web/Famille122.webp";
-  const onClickAdd = () => {
-    let copPanier: any = [...Panier];
-    let prix = Item?.price?.priceHT || 0;
-    copPanier.push({
-      uiiditem: Item.id,
-      title: Item.title,
-      qte: 1,
-      prixuniter: prix,
-      prix: Somme,
-    });
-
-    addToCart(copPanier);
-    toggle();
-  };
-
+    const onClickAdd = () => {
+      let copPanier: any = [...Panier];
+      let prix = Item?.price?.priceHT || 0;
+      // Vérifier si le produit est déjà dans le panier
+      const existingItemIndex = copPanier.findIndex((item: any) => item.uiiditem === Item.id);
+      if (existingItemIndex !== -1) {
+        // Le produit existe déjà, donc augmentez simplement la quantité
+        copPanier[existingItemIndex] = {
+          ...copPanier[existingItemIndex],
+          qte: copPanier[existingItemIndex].qte + 1,
+          prix: parseFloat(((copPanier[existingItemIndex].qte + 1) * copPanier[existingItemIndex].prixuniter).toFixed(2)),
+        };
+      } else {
+        // Le produit n'existe pas encore, ajoutez-le au panier
+        copPanier.push({
+          uiiditem: Item.id,
+          title: Item.title,
+          qte: 1,
+          prixuniter: prix,
+          prix: Somme,
+        });
+      }
+    
+      addToCart(copPanier);
+      toggle();
+    };
   const addSupplementToTotal = (price: number) => {
-    SetSomme(Somme + price); // Ajouter le prix du supplément au total actuel
+    SetSomme(Somme + price);
   };
   const removeSupplement = (itemId: any, price: number) => {
-    SetSomme(Somme - price);
+    const newTotal = Somme - price;
+    // Vérifier si le nouveau total est inférieur au prix de l'item
+    const updatedTotal = newTotal < Item.price.priceHT ? Item.price.priceHT : newTotal;
+    SetSomme(updatedTotal);
   };
-  // React.useEffect(() => {
-  //   let s = 0;
-  //   for (let item of Panier) {
-  //     s += parseFloat(item.prix);
-  //   }
-  //   SetSomme(s);
-  // }, [Panier]);
 
   console.log("item:", Item);
   return (
@@ -90,23 +97,14 @@ console.log({Item});
                   style={{
                     borderColor: "#5d5d5d",
                     border: "1px solid couleurcadre",
-                  }} key={value.id}
+                  }}
                 >
                   <div className="d-flex justify-content-between align-items-center col pl-1 pr-0">
                     <div className="d-flex align-content-center align-items-center">
                       <div data-toggle="buttons">
                         <label className="btn d-flex justify-content-center  align-items-center "></label>
                       </div>
-                      <input
-                        type="checkbox"
-                        style={{
-                          border: "1px solid",
-                          width: "25px",
-                          height: "25px",
-                          borderColor: "#5d5d5d",
-                          borderRadius: "0",
-                        }}
-                      />{" "}
+             
                       {value?.title}
                     </div>
                     <div className="d-flex align-items-center float-right">

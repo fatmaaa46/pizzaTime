@@ -1,137 +1,79 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, { SyntheticEvent, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { v4 } from 'uuid';
+import { addCategories } from "./Add";
+type AddCategorieType ={
+  showModal :boolean ,
+  setShowModal :Function ,
+  setUpdate :Function  ,
+  Update :boolean
+}
 
-export default function AddCategorie() {
-  const router = useRouter();
+export default function AddCategorie({showModal ,setShowModal ,setUpdate  , Update} :AddCategorieType) {
   const [image, setImage] = useState("");
   const [title, setTitle] = useState("");
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setShowModal(false);
+    const shopDataString = localStorage.getItem("shop");
+    const shopData = shopDataString ? JSON.parse(shopDataString) : {};
+    const idShop :any= localStorage.getItem("idResto");
+    let IdCard=0
+    let IndexCard=0
+    for (let i = 0; i < shopData.length; i++) {
+      const shop = shopData[i];
+      if (shop.resto.shopid == idShop) {
+        IdCard= shop.id
+        IndexCard=i
+      }}
     let id=v4()
-    await fetch(`http://localhost:8000/backend/restaurant/${card.id}`, {
+    let NewCategories =addCategories(id, title  , image  , IndexCard )
+    await fetch(`http://localhost:8000/backend/restaurant/${IdCard}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
        card: {
-            [id]: {
-              id: id,
-              color: "#FFFFFF",
-              items: [],
-              ranks: {
-                default: 1,
-                orderOverride: [
-                  {
-                    Order: 1,
-                    IdShop: 2,
-                  },
-                ],
-              },
-              title: title,
-              video: {
-                url: "",
-                type: "",
-              },
-              idCard: 1,
-              archive: false,
-              imageUrl: {
-                Default: {
-                  urlDefault:image,
-                  salesSupport: [],
-                },
-                override: [
-                  {
-                    shopId: "",
-                  },
-                  {
-                    info: [],
-                    salesSupport: [],
-                  },
-                ],
-              },
-              reference: "00085",
-              linkedTags: [],
-              description: {
-                Default: {
-                  impression: [],
-                  nameDefault: "",
-                  salesSupport: [],
-                },
-              },
-              displayName: {
-                Default: {
-                  impression: [],
-                  nameDefault: "junior",
-                },
-              },
-              linkedItems: [],
-              categoryChild: [],
-              categoryParent: "",
-              visibilityInfo: {
-                default: {
-                  Emporter: {
-                    id: "d99758ef-0049-4513-90fe-ca44bd069aac",
-                    visibility: true,
-                  },
-                  Livraison: {
-                    id: "3cb893e8-0f3a-4dcf-aab7-9545e97dfda7",
-                    visibility: true,
-                  },
-                  "Sur place": {
-                    id: "8185fa67-f472-4173-a9b8-ec3dc79cd697",
-                    visibility: true,
-                  },
-                  Restaurant: {
-                    id: "0f0e6661-8f11-4ed8-af32-55a53e45dfd2",
-                    visibility: true,
-                  },
-                },
-                isVisible: true,
-                basicCompositionVisibility: true,
-              },
-              categoryLiaison: [],
-              isNameDisplayed: false,
-              linkedChildCategories: [],
-              isInformationModeActivated: true,
-            }
-          
-          }
+            [id]: {...NewCategories}
+             }
       }),
     });
-
+    setUpdate(!Update)
   };
-  const cat: any = localStorage.getItem("card");
-  let card:any = JSON.parse(cat || null);
+  const handleCloseModal = () => setShowModal(false);
+
+  
   return (
-    <div >
-      <h1>Ajouter categorie</h1>
-      
-      <form className="form_main" action="">
+    <Modal show={showModal} onHide={handleCloseModal}>
+    <Modal.Header closeButton>
+      <Modal.Title>Ajouter catégorie</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <form className="form_main" onSubmit={handleSubmit}>
         <div className="inputContainer">
           <input
             id="image"
             className="inputField"
             type="text"
             onChange={(e) => setImage(e.target.value)}
+            placeholder="URL de l'image"
             required
           />
         </div>
         <div className="inputContainer">
-          <label>title</label>
+          <label>Titre</label>
           <input
-            placeholder="Title"
             id="Title"
             className="inputField"
             type="text"
             onChange={(e) => setTitle(e.target.value)}
+            placeholder="Titre"
             required
           />
         </div>
-        <Button onClick={handleSubmit}>add</Button>
+        <Button type="submit">Ajouter</Button>
       </form>
-      
-    </div>
+    </Modal.Body>
+  </Modal>
   );
 }

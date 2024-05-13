@@ -1,4 +1,4 @@
-import { Column, Entity,  PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity,  PrimaryGeneratedColumn, TableForeignKey } from "typeorm";
 
 @Entity()
 export class User{
@@ -19,6 +19,8 @@ export class User{
 
     @Column()
     password:string;
-   
+
+    @Column({default:"client"})
+    role:string;   
 
 }

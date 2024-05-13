@@ -1,10 +1,20 @@
 "use client";
-import router from "next/router";
 import React, { SyntheticEvent, useState } from "react";
-import { Button } from "react-bootstrap";
-import { v4 } from "uuid";
+import { Button, Modal } from "react-bootstrap";
 
-export default function UpdateResto() {
+type UpdateRestoType = {
+  showModalUpdate: boolean;
+  setShowModalUpdate: Function;
+  setUpdateResto: Function;
+  UpdateResto: boolean;
+};
+
+export default function UpdateRestaurant({
+  showModalUpdate,
+  setShowModalUpdate,
+  setUpdateResto,
+  UpdateResto,
+}: UpdateRestoType) {
   const [town, setTown] = useState("");
   const [Nature, setNature] = useState("");
   const [country, setCountry] = useState("");
@@ -16,13 +26,23 @@ export default function UpdateResto() {
   const [closingTime, setclosingTime] = useState("");
   const [openingTime, setopeningTime] = useState("");
   const [Address, setAddress] = useState("");
+
   const updateProduct = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const cat: any = localStorage.getItem("card");
-    let card: any = JSON.parse(cat || null);
-    let shopId: any = localStorage.getItem("shopLength");
+    const shopDataString = localStorage.getItem("shop");
+    const shopData = shopDataString ? JSON.parse(shopDataString) : {};
+    const idShop :any= localStorage.getItem("idResto");
+    let IdCard=0
+    let IndexCard=0
+    for (let i = 0; i < shopData.length; i++) {
+      const shop = shopData[i];
+      if (shop.resto.shopid == idShop) {
+        IdCard= shop.id
+        IndexCard=i
+      }}
+      let shopId: any = localStorage.getItem("shopLength");
 
-    await fetch(`http://localhost:8000/backend/restaurant/${card.id}`, {
+    await fetch(`http://localhost:8000/backend/restaurant/${IdCard}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -43,13 +63,19 @@ export default function UpdateResto() {
         }
       }),
     });
-    shopId = Number(shopId) + 1;
+    shopId = Number(shopId) ;
     localStorage.setItem("shopLength", shopId);
+    setUpdateResto(!UpdateResto)
   };
+  const handleCloseModal = () => setShowModalUpdate(false);
+
 
   return (
     <div>
-      <h1>update restaurant</h1>
+       <Modal show={showModalUpdate} onHide={handleCloseModal}>
+       <Modal.Header closeButton>
+      <h1>update restaurant</h1> </Modal.Header>
+      <Modal.Body>
       <form className="form_main" action="">
         <div className="inputContainer">
           <input
@@ -172,6 +198,8 @@ export default function UpdateResto() {
         </div>
         <Button onClick={updateProduct}>Modifier</Button>
       </form>
+      </Modal.Body>
+      </Modal>
     </div>
   );
 }

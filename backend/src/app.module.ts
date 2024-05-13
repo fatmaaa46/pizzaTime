@@ -1,12 +1,11 @@
 import {ConfigModule} from'@nestjs/config';
 import { TypeOrmModule} from '@nestjs/typeorm'
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { ProductModule } from './product/module/product.module';
-import { User } from './user/user.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/module/user.module';
+import { PanierModule } from './panier/module/panier.module';
 
 @Module({
   imports: [
@@ -25,6 +24,7 @@ import { UserModule } from './user/module/user.module';
 
   UserModule,
   ProductModule,
+  PanierModule
   ],
   controllers: [AppController],
   providers: [AppService],

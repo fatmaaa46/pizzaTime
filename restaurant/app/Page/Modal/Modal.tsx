@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Image from "next/image";
 import moto from "../../../public/image/moto.png";
@@ -9,59 +9,75 @@ import { useRouter } from "next/navigation";
 import { useSnapshot } from "valtio";
 import store from "@/app/components/store";
 
-
 const ModalCategorie: any = ({ showModal, setShowModal }: any) => {
   const toggle = () => setShowModal(!showModal);
   const router = useRouter();
+  const panierSnapshot = useSnapshot(store);
+  const userId=localStorage.getItem("userId")
+  let etat="payé"
+
   const { selectedCategorie } = useSnapshot(store);
   console.log({ selectedCategorie });
   const [chosenOption, setChosenOption] = useState<string>("");
   const [selectedTime, setSelectedTime] = useState<string>("");
-  const [showProfile, setShowProfile] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10)); // Récupère la date d'aujourd'hui
 
   const handleOptionClick = (option: string) => {
     setChosenOption(option);
+    
   };
-  // ************************
+
   const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedTime(event.target.value);
   };
 
-  // **************************
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      const userId = localStorage.getItem("userId");
-      if (userId) {
-        setShowProfile(true);
-      }
-    } catch (error) {
-      console.log('Erreur lors de la récupération des données utilisateur', error);
+  const handleValidateClick = async ({ cartItem, id_user, etat, prix,ModeRetrait }:any) => { 
+    
+    const Panier = panierSnapshot.Panier 
+    let  DataCartItem :any=[]
+    let TPrix :any=0
+    for (let item of Panier) {
+      TPrix +=item.prix
+      DataCartItem.push({...item})
     }
-  };
+    
+   
+    let  body={
+      "cartItem":{...DataCartItem },
+"id_user":Number(userId),
+"etat":etat,
+"prix":TPrix,
+"ModeRetrait":{
+    Mode: chosenOption,
+    time: selectedTime
+  
+}
 
 
-  // **************************
-  const handleValidateClick = () => {
+    }
+    let response = await fetch("http://localhost:8000/backend/panier/AddPanier", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body)
+});   
 
-    selectedTime === "" ?
-      (alert("insert time"), setTimeout(() => router.push('/'), 3000))
-      : chosenOption === "emporter" ? (showProfile ? router.push("/Page/Profile") :
-        setTimeout(() => { alert("Connectez-vous d'abord s'il vous plaît"), router.push('/'), 3000 })) :
-        chosenOption === "livraison" ?
-          (showProfile ? router.push("/components/DropDown") :
-            setTimeout(() => { alert("Connectez-vous d'abord s'il vous plaît"), router.push('/'), 3000 }))
-          : NaN;
-
-
+    if (selectedTime === "") {
+      alert("insert time");
+    } else if (chosenOption === "emporter") {
+      router.push("/Page/Profile/Commande");
+    } else if (chosenOption === "livraison") {
+      alert("choose sale mode");
+    }
     toggle();
-  };
+   };
 
-
+  // const handleCloseClick = () => {
+  //   setModal(false);
+  // };
+  useEffect(() => {
+    const currentTime = new Date().toLocaleTimeString('en-US', { hour12: false });
+    setSelectedTime(currentTime);
+  }, []); // Utilisation de useEffect pour exécuter une fois après le rendu initial
 
   return (
     <Modal show={showModal} onHide={toggle}>
@@ -69,7 +85,6 @@ const ModalCategorie: any = ({ showModal, setShowModal }: any) => {
         <Modal.Title>Modes de retrait</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-
         <div className="options">
           <div>
             <Image
@@ -102,19 +117,18 @@ const ModalCategorie: any = ({ showModal, setShowModal }: any) => {
             </p>
           </div>
         </div>
-
-        <p style={{ marginTop: "1rem", marginBottom: "0.5rem", textAlign: "center" }}>
+        <p
+          style={{
+            marginTop: "1rem",
+            marginBottom: "0.5rem",
+            textAlign: "center",
+          }}
+        >
           Aujourd'hui
         </p>
-
         <div className="time-input">
-          <input
-            type="time"
-            value={selectedTime}
-            onChange={handleTimeChange}
-          />
+        <input type="time" value={selectedTime} onChange={handleTimeChange}  min={new Date().toLocaleTimeString('en-US', { hour12: false })} />
         </div>
-
       </Modal.Body>
       <Modal.Footer className="footer">
         <Button onClick={handleValidateClick} className="button2">
@@ -126,4 +140,3 @@ const ModalCategorie: any = ({ showModal, setShowModal }: any) => {
 };
 
 export default ModalCategorie;
-

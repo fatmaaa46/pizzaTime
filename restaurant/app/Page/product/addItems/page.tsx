@@ -1,5 +1,5 @@
 import React from 'react'
-import AddItem from './AddItems'
+import AddItem from './AddItem'
 
 function page() {
   return (

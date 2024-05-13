@@ -61,10 +61,10 @@ const UserList: React.FC<User> = (props) => {
       <table className="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>User</th>
-            <th>Delete</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>E-mail</th>
+            <th>Supprimer</th>
           </tr>
         </thead>
         <tbody>

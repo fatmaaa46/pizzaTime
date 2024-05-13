@@ -10,7 +10,7 @@ import CommandeList from "@/app/components/Admin/CommandeList";
 const AdminPanel = () => {
   return (
     <div>
-       <Admin dataProvider={restProvider("http://localhost:3000")}>
+      <Admin dataProvider={restProvider("http://localhost:3000")}>
         <Resource name="utilisateurs" list={UserList}  />
         <Resource name="Restaurant" list={ProductList}  />
         <Resource name="Commandes" list={CommandeList}  />

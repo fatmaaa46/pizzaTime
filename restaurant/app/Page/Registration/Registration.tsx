@@ -1,7 +1,6 @@
 "use client"
 import React, { SyntheticEvent, useState } from "react";
-
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Registration = () => {
   const [nom, setNom] = useState("");
@@ -25,7 +24,6 @@ const Registration = () => {
     const data: any = await response.json();
     return data;
   };
-  //listOfUser()
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
     let users = await listOfUser();
@@ -40,8 +38,13 @@ const Registration = () => {
       });
       return;
     }
-  
-    if (!validatePhoneNumber(tele)) {
+    if (password !== confirmPassword) {
+      toast.error(`Les mots de passe ne correspondent pas!`, {
+        autoClose: 2000,
+      });
+      return;
+    }
+     if (!validatePhoneNumber(tele)) {
       toast.error(`Veuillez saisir un numéro de téléphone valide (9 chiffres)!`, {
         autoClose: 2000,
         theme: "colored",
@@ -143,7 +146,7 @@ const Registration = () => {
             id="motdepasse"
             className="inputField"
             type="password"
-            onChange={(e) =>setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </div>
